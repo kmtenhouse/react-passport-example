@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -11,12 +12,29 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-// Define API routes here
+// Connect to Mongoose
+// Connect to the Mongo DB
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/reactpassportexampledb",
+  {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  }
+);
 
-// Send every other request to the React app
-// Define any API routes before this runs
+
+// Define API routes here
+const routes = require("./routes");
+app.use(routes);
+
+// Default behavior: send every unmatched route request to the React app
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  if (process.env.NODE_ENV === "production") {
+    return res.sendFile(path.join(__dirname, "./client/build/index.html"));
+  }
+  res.send("This route does not exist!");
 });
 
 app.listen(PORT, () => {
