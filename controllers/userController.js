@@ -9,10 +9,10 @@ module.exports = {
     findById: function (req, res) {
         db.User.findById(req.params.id)
             .then(result => {
-                if(result === null) {
+                if(!result) {
                     return res.sendStatus(404); //we didn't actually find anybody!
                 }
-                return res.status(200).json(result);
+                return res.status(200).json(result); //otherwise, send the person
             })
             .catch(err => res.status(500).json(err));
     }
