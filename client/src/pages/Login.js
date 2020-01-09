@@ -26,8 +26,7 @@ class Login extends React.Component {
 
         API.login(email, password)
             .then(result => {
-                console.log(result);
-                this.setState({ email: '', password: '' });
+                this.props.onSuccess(result.data);
             })
             .catch(err => console.log(err.message));
     };
@@ -38,13 +37,12 @@ class Login extends React.Component {
                 <div className="row">
                     <div className="col-12 card">
                         <div className="card-body">
-                            <h5 className="card-title">Sign Up</h5>
-                            <p className="card-text">Please sign up for an account.</p>
-                            <form onSubmit={this.handleSubmit}> 
+                            <h5 className="card-title">Log In</h5>
+                            <p className="card-text">Please login to continue.</p>
+                            <form onSubmit={this.handleSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="exampleInputEmail1">Email address</label>
                                     <input type="email" name="email" value={this.state.email} onChange={this.handleChange} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="exampleInputPassword1">Password</label>
