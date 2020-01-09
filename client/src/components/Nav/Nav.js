@@ -8,14 +8,7 @@ function Nav(props) {
                 <span className="navbar-brand">Navbar</span>
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav mr-auto">
-                        <li className="nav-item active">
-                            <Link to="/home" className="nav-link">Home  <span className="sr-only">(current)</span></Link>
-                        </li>
-                    </ul>
-                    <ul className="navbar-nav ml-auto">
-                        {(props.user ? loggedIn() : loggedOut())}
-                    </ul>
+                    {props.user ? loggedIn(props.logOut) : loggedOut()}
                 </div>
             </nav>
         </React.Fragment>
@@ -25,22 +18,39 @@ function Nav(props) {
 function loggedOut() {
     return (
         <React.Fragment>
-            <li className="nav-item active">
-                <Link to="/signup" className="nav-link">Sign Up</Link>
-            </li>
-            <li className="nav-item active">
-                <Link to="/login" className="nav-link">Log In</Link>
-            </li>
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item active">
+                    <Link to="/home" className="nav-link">Home  <span className="sr-only">(current)</span></Link>
+                </li>
+            </ul>
+            <ul className="navbar-nav ml-auto">
+                <li className="nav-item active">
+                    <Link to="/signup" className="nav-link">Sign Up</Link>
+                </li>
+                <li className="nav-item active">
+                    <Link to="/login" className="nav-link">Log In</Link>
+                </li>
+            </ul>
         </React.Fragment>
     );
 }
 
-function loggedIn() {
+function loggedIn(logOutFn) {
     return (
         <React.Fragment>
-            <li className="nav-item active">
-                <Link to="/logout" className="nav-link">Log Out</Link>
-            </li>
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                    <Link to="/home" className="nav-link">Home <span className="sr-only">(current)</span></Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="/members" className="nav-link">Members</Link>
+                </li>
+            </ul>
+            <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                    <button className="nav-link" onClick={logOutFn} >Log Out</button>
+                </li>
+            </ul>
         </React.Fragment>
     );
 }

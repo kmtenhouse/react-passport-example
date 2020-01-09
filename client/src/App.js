@@ -5,6 +5,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
+import axios from "axios";
 
 /* Import pages */
 import Home from "./pages/Home";
@@ -24,19 +25,26 @@ class App extends React.Component {
     this.setState({ user: user });
   };
 
+  logOut = () => {
+    //Make sure we do an axios call to log out from the backend...then update the state!
+    axios.get("/auth/logout")
+      .then(result => this.setState({ user: null }))
+      .catch(err=> console.log(err));
+  }
+
   render() {
     return (
       <Router>
-        <Nav user={this.state.user} />
+        <Nav user={this.state.user} logOut={this.logOut} />
         <Switch>
           <Route path="/home">
             <Home />
           </Route>
-          <Route path="/members" render={()=>  (this.state.user !== null ? <Members user={this.state.user} /> : <Redirect to="/login" />) } />
+          <Route path="/members" render={() => (this.state.user !== null ? <Members user={this.state.user} /> : <Redirect to="/login" />)} />
 
-          <Route path="/login" render={()=>  (this.state.user !== null ? <Redirect to="/members" /> : <Login onSuccess={this.logIn} />) } />
+          <Route path="/login" render={() => (this.state.user !== null ? <Redirect to="/members" /> : <Login onSuccess={this.logIn} />)} />
 
-          <Route path="/signup" render={()=>  (this.state.user !== null ? <Redirect to="/members" /> : <Signup onSuccess={this.logIn} />) } />
+          <Route path="/signup" render={() => (this.state.user !== null ? <Redirect to="/members" /> : <Signup onSuccess={this.logIn} />)} />
 
           <Route path="/">
             <Home />
