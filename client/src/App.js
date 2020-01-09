@@ -32,6 +32,15 @@ class App extends React.Component {
       .catch(err=> console.log(err));
   }
 
+  componentDidMount() {
+    //check to see if we're already logged in by asking the backend
+    axios.get("/auth/whoami")
+      .then(result => {
+        this.setState({user: result.data })
+      })
+      .catch(err=> console.log(err));
+  }
+
   render() {
     return (
       <Router>
