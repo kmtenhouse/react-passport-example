@@ -46,11 +46,12 @@ module.exports = {
 
             //Finally, we create the new user:
             const newUser = await User.create({ email: email, password: saltedAndHashedPwd });
-            //And finally (for now) we return the new user to the front end
-            res.json(
-                {
-                    _id: newUser._id, email: newUser.email
-                });
+            
+            //And now, we log them in!
+            req.login(newUser, err => {
+                if(err) { throw err };
+                res.json(req.user); 
+            });
         }
         catch (err) {
             console.log(err);
