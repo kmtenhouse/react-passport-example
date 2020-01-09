@@ -10,19 +10,19 @@ module.exports = {
             const results = await User.find({});
             res.status(200).json(results);
         }
-        catch(err) {
+        catch (err) {
             res.status(500).json(err)
         }
     },
     findById: async function (req, res) {
         try {
-            const result = await  User.findById(req.params.id);
+            const result = await User.findById(req.params.id);
             if (!result) {
                 return res.sendStatus(404); //we didn't actually find anybody!
             }
             res.status(200).json(result);
         }
-        catch(err) {
+        catch (err) {
             res.status(500).json(err)
         }
     },
@@ -47,7 +47,10 @@ module.exports = {
             //Finally, we create the new user:
             const newUser = await User.create({ email: email, password: saltedAndHashedPwd });
             //And finally (for now) we return the new user to the front end
-            res.json({_id: newUser._id, email: newUser.email});
+            res.json(
+                {
+                    _id: newUser._id, email: newUser.email
+                });
         }
         catch (err) {
             console.log(err);
