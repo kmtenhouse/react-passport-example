@@ -22,7 +22,7 @@ router.route("/logout")
 
 router.route("/whoami")
     .get((req, res)=> {
-        res.json(req.user || { loggedOut: true });
+        res.json(req.user || null);
     });
 
 module.exports = router;
