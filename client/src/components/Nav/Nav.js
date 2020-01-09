@@ -14,15 +14,33 @@ function Nav(props) {
                         </li>
                     </ul>
                     <ul className="navbar-nav ml-auto">
-                        <li className="nav-item active">
-                            <Link to="/signup" className="nav-link">Sign Up</Link>
-                        </li>
-                        <li className="nav-item active">
-                            <Link to="/login" className="nav-link">Log In</Link>
-                        </li>
+                        {(props.user ? loggedIn() : loggedOut())}
                     </ul>
                 </div>
             </nav>
+        </React.Fragment>
+    );
+}
+
+function loggedOut() {
+    return (
+        <React.Fragment>
+            <li className="nav-item active">
+                <Link to="/signup" className="nav-link">Sign Up</Link>
+            </li>
+            <li className="nav-item active">
+                <Link to="/login" className="nav-link">Log In</Link>
+            </li>
+        </React.Fragment>
+    );
+}
+
+function loggedIn() {
+    return (
+        <React.Fragment>
+            <li className="nav-item active">
+                <Link to="/logout" className="nav-link">Log Out</Link>
+            </li>
         </React.Fragment>
     );
 }

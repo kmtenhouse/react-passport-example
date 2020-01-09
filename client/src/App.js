@@ -3,8 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect, 
-  useLocation
+  Redirect
 } from "react-router-dom";
 
 /* Import pages */
@@ -22,20 +21,18 @@ class App extends React.Component {
   };
 
   logIn = user => {
-    console.log("User is logged in!");
     this.setState({ user: user });
-    console.log(this.state.user);
   };
 
   render() {
     return (
       <Router>
-        <Nav />
+        <Nav user={this.state.user} />
         <Switch>
           <Route path="/home">
             <Home />
           </Route>
-          <Route path="/members" render={()=>  (this.state.user !== null ? <Members /> : <Redirect to="/login" />) } />
+          <Route path="/members" render={()=>  (this.state.user !== null ? <Members user={this.state.user} /> : <Redirect to="/login" />) } />
 
           <Route path="/login" render={()=>  (this.state.user !== null ? <Redirect to="/members" /> : <Login onSuccess={this.logIn} />) } />
 
