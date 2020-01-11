@@ -49,7 +49,7 @@ class App extends React.Component {
           <Route path="/home">
             <Home />
           </Route>
-          <Route path="/members" render={() => (this.state.user !== null ? <Members user={this.state.user} /> : <Redirect to="/login" />)} />
+          <Route path="/members" render={() => (this.state.user !== null ? <Members user={this.state.user} onError={this.logOut} /> : <Redirect to="/login" />)} />
 
           <Route path="/login" render={() => (this.state.user !== null ? <Redirect to="/members" /> : <Login onSuccess={this.logIn} />)} />
 

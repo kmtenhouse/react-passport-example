@@ -48,7 +48,7 @@ function loggedIn(logOutFn) {
             </ul>
             <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                    <button className="nav-link" onClick={logOutFn} >Log Out</button>
+                    <button className="btn nav-link" onClick={logOutFn} >Log Out</button>
                 </li>
             </ul>
         </React.Fragment>

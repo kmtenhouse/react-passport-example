@@ -4,7 +4,8 @@ import API from "../utils/API";
 class Signup extends React.Component {
     state = {
         email: "",
-        password: ""
+        password: "",
+        error: ""
     };
 
     handleChange = event => {
@@ -27,9 +28,13 @@ class Signup extends React.Component {
         API.signup(email, password)
             .then(result => {
                 console.log(result);
-                this.setState({ email: '', password: '' });
+                this.setState({ email: '', password: '', error: '' });
+                this.props.onSuccess(result.data);
             })
-            .catch(err => console.log(err.message));
+            .catch(err => {
+                console.log(err);
+                this.setState({error: err});
+            });
     };
 
     render() {
@@ -50,6 +55,12 @@ class Signup extends React.Component {
                                     <label htmlFor="exampleInputPassword1">Password</label>
                                     <input type="password" name="password" value={this.state.password} onChange={this.handleChange} className="form-control" id="exampleInputPassword1" placeholder="Password" />
                                 </div>
+                                {(this.state.error ?
+                                    <div className="alert alert-danger" role="alert">
+                                        Sorry, we couldn't sign you up with that username and password. Please try again.
+                                    </div>
+                                    :
+                                    '')}
                                 <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>
                             </form>
                         </div>
