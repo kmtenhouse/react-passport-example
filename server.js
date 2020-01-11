@@ -2,14 +2,32 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const session = require("express-session");
+const MongoSessionStore = require("connect-mongo")(session);
 const bodyParser = require("body-parser");
+
+//some fun packages that help us with useful stuff
+//helmet provides extra security...
 const helmet = require("helmet");
+
+//and morgan lets us have verbose logs 
+const morgan = require("morgan");
 
 //require environment variables and immediately configure them
 require("dotenv").config();
 
 //require our specific configuration of passport
 const passport = require("./config/passport");
+
+//connect to the Mongo DB
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/reactpassportexampledb",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  }
+);
 
 //set up our port and begin an express app
 const PORT = process.env.PORT || 3001;
@@ -21,9 +39,14 @@ if (process.env.NODE_ENV === "production") {
   app.use(helmet.hsts());
 }
 
+// Logs time...as long as we're not in production
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+}
+
 //Set up our session
 const sessionConfig = {
-/*   store: sessionStore, */
+  store: new MongoSessionStore({ mongooseConnection: mongoose.connection }), //this line says we're going to use the connection to the db we already have
   secret: process.env.COOKIE_SECRET,
   resave: false,
   saveUninitialized: true,
@@ -53,17 +76,6 @@ app.use(passport.session());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
-
-// Connect to the Mongo DB
-mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/reactpassportexampledb",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-  }
-);
 
 // Define API routes here
 const routes = require("./routes");
