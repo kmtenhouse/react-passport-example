@@ -15,7 +15,7 @@ class Members extends React.Component {
             .then(result => this.setState({ message: result.data.message }))
             .catch(err => {
                 console.log(err);
-                this.props.onError();
+/*                 this.props.onError(); */
             });
     }
 
