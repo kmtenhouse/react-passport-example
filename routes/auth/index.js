@@ -9,6 +9,7 @@ const passport = require("../../config/passport");
 router
     .route("/login")
     .post(passport.authenticate('local'), (req, res) => {
+        //If someone is logged in...we will now have this 'req.user'
         res.json(req.user);
     });
 

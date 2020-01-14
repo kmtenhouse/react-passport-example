@@ -6,7 +6,7 @@ router.route("/")
         if (req.isAuthenticated()) {
             return res.json({ message: "Welcome to our secret clubhouse" });
         }
-        res.sendStatus(401);
+        res.sendStatus(401); //you are not allowed!
     });
 
 module.exports = router;

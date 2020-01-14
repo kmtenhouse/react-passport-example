@@ -1,5 +1,5 @@
 import React from "react";
-import API from "../utils/API";
+import axios from "axios";
 
 class Login extends React.Component {
     state = {
@@ -10,13 +10,13 @@ class Login extends React.Component {
 
     handleChange = event => {
         event.preventDefault();
-
+        
         // Getting the value and name of the input which triggered the change
         const { name, value } = event.target;
 
         // Updating the input's state
         this.setState({
-            [name]: value
+            [name]: value 
         });
     };
 
@@ -25,7 +25,7 @@ class Login extends React.Component {
 
         const { email, password } = this.state; //grab the current state for email and password
 
-        API.login(email, password)
+        axios.post("/auth/login", { email: email, password: password})
             .then(result => {
                 this.setState({ error: "" });
                 this.props.onSuccess(result.data);
