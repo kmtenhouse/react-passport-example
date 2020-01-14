@@ -50,7 +50,9 @@ const sessionConfig = {
   secret: process.env.COOKIE_SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: {},
+  cookie: {
+    path: "/"
+  },
   name: "id" //make session cookie name generic so it's harder to tell what tech we are using
 };
 
