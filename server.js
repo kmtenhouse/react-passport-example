@@ -58,6 +58,7 @@ const sessionConfig = {
 
 //In production, ensure we are using secure cookies for our session!
 if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
   sessionConfig.cookie.secure = true;  // serve secure cookies
   sessionConfig.cookie.httpOnly = true; // ensure front end js cannot touch cookie 
 }
