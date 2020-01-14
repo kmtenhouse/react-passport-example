@@ -7,9 +7,9 @@ const User = require("../models/user");
 //using bcrypt for hashing
 const bcrypt = require("bcryptjs");
 
-passport.use('local', new LocalStrategy(  // Our user will sign in using an email, rather than a "username"
+passport.use('local', new LocalStrategy(
     {
-        usernameField: "email"
+        usernameField: "email"  // Our user will sign in using an email, rather than a "username"
     },
     async function (email, password, done) {
         try {
@@ -28,23 +28,24 @@ passport.use('local', new LocalStrategy(  // Our user will sign in using an emai
         }
         catch (err) {
             return done(err);
-        }
+        } 
     }
 ));
 
 // Set up serialization
 // This controls how the db will look up users
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
 passport.deserializeUser(async function (id, done) {
     try {
         const currentUser = await User.findById(id);
         done(null, currentUser);
     } catch (err) {
-        done(err, false);
+        done(err);
     }
 });
+
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
+});
+
 
 module.exports = passport;

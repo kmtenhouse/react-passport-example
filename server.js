@@ -36,7 +36,7 @@ const app = express();
 // Security zone!
 // Ensure we only access the application via https in production:
 if (process.env.NODE_ENV === "production") {
-  app.use(helmet.hsts());
+  app.use(helmet.hsts()); //use https
 }
 
 // Logs time...as long as we're not in production
@@ -83,10 +83,10 @@ app.use(routes);
 
 // Default behavior: send every unmatched route request to the React app (in production)
 app.get("*", (req, res) => {
-  if (process.env.NODE_ENV === "production") {
+/*   if (process.env.NODE_ENV === "production") {
     return res.sendFile(path.join(__dirname, "./client/build/index.html"));
-  }
-  res.status(500).send("This route does not exist!");
+  } */
+  res.sendStatus(404);
 });
 
 app.listen(PORT, () => {

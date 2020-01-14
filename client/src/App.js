@@ -21,8 +21,8 @@ class App extends React.Component {
     user: null
   };
 
-  logIn = user => {
-    this.setState({ user: user });
+  logIn = user => { // user <--  result.data
+    this.setState({ user: user }); //update our state to include result.data
   };
 
   logOut = () => {
@@ -47,9 +47,10 @@ class App extends React.Component {
         <Nav user={this.state.user} logOut={this.logOut} />
         <Switch>
           <Route path="/home">
-            <Home />
+            <Home user={this.state.user} />
           </Route>
-          <Route path="/members" render={() => (this.state.user !== null ? <Members user={this.state.user} onError={this.logOut} /> : <Redirect to="/login" />)} />
+
+           <Route path="/members" render={() => (this.state.user !== null ? <Members user={this.state.user} onError={this.logOut} /> : <Redirect to="/login" />)} /> 
 
           <Route path="/login" render={() => (this.state.user !== null ? <Redirect to="/members" /> : <Login onSuccess={this.logIn} />)} />
 
